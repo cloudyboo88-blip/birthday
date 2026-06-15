@@ -4,12 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday! ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
@@ -24,51 +27,58 @@
             position: relative;
         }
 
-        /* Container Kartu (Kotak putih dihapus, sekarang transparan) */
+        /* Container Kartu Tanpa Kotak Putih */
         .card {
             background: transparent;
             padding: 20px;
             max-width: 600px;
             width: 100%;
-            z-index: 10; /* Berada di atas efek hati agar bisa diklik */
-            transition: all 0.5s ease;
+            z-index: 10; 
         }
 
-        /* Halaman */
+        /* Sistem Halaman */
         .page {
             display: none;
-            animation: fadeIn 0.5s ease-in-out;
         }
 
         .page.active {
             display: block;
+            animation: fadeIn 0.6s ease-in-out;
         }
 
-        /* Tipografi */
+        /* Judul Tulisan (Pakai Font Fredoka yang Lucu/Estetik) */
         h1 {
+            font-family: 'Fredoka', sans-serif;
             color: #ff477e;
-            font-size: 2.2rem;
+            font-size: 2.4rem;
             margin-bottom: 30px;
             line-height: 1.4;
-            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+            letter-spacing: 0.5px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
         }
 
+        /* Teks Cerita (Pakai Font Quicksand yang Manis) */
         p {
+            font-family: 'Quicksand', sans-serif;
             color: #4a4a4a;
-            font-size: 1.2rem;
-            line-height: 1.7;
+            font-size: 1.3rem;
+            line-height: 1.8;
             margin-bottom: 30px;
             white-space: pre-line;
             font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
         }
 
         .highlight {
-            font-weight: bold;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
             color: #ff5c8a;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
+            display: block;
+            margin-top: 15px;
         }
 
-        /* Tombol */
+        /* Pembungkus Tombol */
         .btn-container {
             display: flex;
             justify-content: center;
@@ -78,16 +88,17 @@
             min-height: 60px;
         }
 
+        /* Tombol Dasar */
         button {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
             padding: 14px 35px;
             font-size: 1.1rem;
-            font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            transition: transform 0.2s, background-color 0.3s;
             box-shadow: 0 4px 15px rgba(219, 68, 118, 0.2);
-            z-index: 15; /* Memastikan tombol paling depan untuk diklik */
+            transition: transform 0.2s, background-color 0.3s;
         }
 
         .btn-yes, .btn-next {
@@ -100,14 +111,172 @@
             transform: scale(1.05);
         }
 
+        /* Tombol NO yang bisa kabur */
         .btn-no {
             background-color: #ffffff;
             color: #ff477e;
             border: 2px solid #ff477e;
             position: relative;
-            transition: all 0.2s ease;
         }
 
-        /* Efek Hati (Z-index dikecilkan agar tidak menghalangi klik) */
+        /* Efek Hati / Love */
         .heart {
-            position: fixed
+            position: fixed;
+            color: #ff7096;
+            font-size: 20px;
+            top: -10%;
+            user-select: none;
+            z-index: 1; 
+            animation: fall linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) translateX(100px) rotate(360deg);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgm" loop>
+        <source src="birthday-bgm.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card">
+        <div class="page active" id="page1">
+            <h1>WHO IS THE BIRTH DAY MAN TODAY?<br>ARE YOU?? ARE YOU???</h1>
+            <div class="btn-container">
+                <button class="btn-yes" onclick="startBirthday()">YES</button>
+                <button class="btn-no" id="btnNo" onmouseover="moveNoButton()" onclick="moveNoButton()">NO</button>
+            </div>
+        </div>
+
+        <div class="page" id="page2">
+            <h1>SELAMAT ULANG TAHUN MY DEAR</h1>
+            <p>you've done great job for the entire year, sayangku.<span class="highlight">keyennn cekayiii ♡</span></p>
+            <button class="btn-next" onclick="nextPage(3)">Next -> </button>
+        </div>
+
+        <div class="page" id="page3">
+            <p>29 tahun ya
+            mungkin diam-diam kamu berharap ulang tahun udah gak bakal nambah usia lagi wkwk tapi percayalah itu gak mungkin.
+
+            29 tahun ya
+            ini tahun terakhir dengan usia kepala dua, tahun depan udah ganti kepala tiga, semoga perjalanan diakhir usia dua puluhan ini sangat menyenangkan.</p>
+            <button class="btn-next" onclick="nextPage(4)">Next -> </button>
+        </div>
+
+        <div class="page" id="page4">
+            <p>orang lain mungkin banyak yang ucapin selamat, tapi aku benar-benar berharap kamu selamat.
+
+            selamat atas pertarungan dunia yang bahkan gak bisa kamu ceritain kesiapapun.</p>
+            <button class="btn-next" onclick="nextPage(5)">Next -> </button>
+        </div>
+
+        <div class="page" id="page5">
+            <p>ada gula
+            diatas gentenkk...</p>
+            <button class="btn-next" onclick="nextPage(6)">cakeeeeep</button>
+        </div>
+
+        <div class="page" id="page6">
+            <h1>selamat ulang tahun yaa<br>gantenkk</h1>
+            <button class="btn-next" onclick="nextPage(7)">anjaaaay</button>
+        </div>
+
+        <div class="page" id="page7">
+            <h1>wish you all the best, babe</h1>
+            <button class="btn-next" onclick="resetPage()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        let heartInterval;
+
+        window.onload = function() {
+            startHearts();
+        };
+
+        function startBirthday() {
+            const audio = document.getElementById('bgm');
+            if(audio) {
+                audio.play().catch(function(e) { 
+                    console.log("Musik butuh interaksi"); 
+                });
+            }
+            nextPage(2);
+        }
+
+        function nextPage(pageNumber) {
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(function(page) {
+                page.classList.remove('active');
+            });
+            
+            const targetPage = document.getElementById('page' + pageNumber);
+            if(targetPage) {
+                targetPage.classList.add('active');
+            }
+        }
+
+        function moveNoButton() {
+            const btnNo = document.getElementById('btnNo');
+            if(btnNo) {
+                const x = Math.random() * (window.innerWidth - btnNo.offsetWidth - 60);
+                const y = Math.random() * (window.innerHeight - btnNo.offsetHeight - 60);
+
+                btnNo.style.position = 'fixed';
+                btnNo.style.left = x + 'px';
+                btnNo.style.top = y + 'px';
+            }
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 2 + 's';
+            heart.style.opacity = Math.random() * 0.6 + 0.4;
+            heart.style.fontSize = Math.random() * 15 + 15 + 'px';
+
+            document.body.appendChild(heart);
+
+            setTimeout(function() {
+                heart.remove();
+            }, 5000);
+        }
+
+        function startHearts() {
+            if (!heartInterval) {
+                heartInterval = setInterval(createHeart, 300);
+            }
+        }
+
+        function resetPage() {
+            const audio = document.getElementById('bgm');
+            if(audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+
+            const btnNo = document.getElementById('btnNo');
+            if(btnNo) {
+                btnNo.style.position = 'relative';
+                btnNo.style.left = 'auto';
+                btnNo.style.top = 'auto';
+            }
+
+            nextPage(1);
+        }
+    </script>
+</body>
+</html>
